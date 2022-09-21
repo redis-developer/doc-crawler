@@ -1,0 +1,20 @@
+services:
+  redis:
+    image: redis/redis-stack-server:latest
+    ports: 
+      - 6379:6379
+  tika:
+    image: apache/tika:latest
+    ports:
+      - 9998:9998
+  app:
+    build: .
+    environment:
+      REDIS_URL: redis://redis:6379
+      TIKA_URL: http://tika:9998
+      APP_PORT: 8000
+    ports:
+      - 8000:8000
+    depends_on:
+     - redis
+     - tika
