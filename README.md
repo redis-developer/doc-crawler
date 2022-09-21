@@ -1,4 +1,4 @@
-# Example of a Web Crawler using Redis for doc storage and indexing
+# Example of a Web Crawler with Redis Indexing
 
 ## Summary
 API server implementation of a web crawler.  Apache Tika is leveraged to extract text from crawled docs (html,
@@ -47,16 +47,28 @@ npm run test
 #app status
 curl -X GET http://localhost:8000
 
+{"status":"app running"}
+
 #start a crawl task
 curl -X POST http://localhost:8000/crawl \
 -H 'Content-Type: application/json' \
 -d '{"fqdn":"developer.redis.com"}'
 
+{"taskID":"ec135f4c-d3f5-4a9f-bafb-4eb90bfd8273"}
+
 #check status on a crawl task
-curl -X GET http://localhost:8000/status/tasks/1234
+curl -X GET http://localhost:8000/status/tasks/ec135f4c-d3f5-4a9f-bafb-4eb90bfd8273
+
+{"status":"active"}
+
+curl -X GET http://localhost:8000/status/tasks/ec135f4c-d3f5-4a9f-bafb-4eb90bfd8273
+
+{"indexed":159,"errors":0,"time":56.81,"status":"complete"}
 
 #document search
 curl -X PUT http://localhost:8000/search \
 -H 'Content-Type: application/json' \
 -d '{"term":"Node.js"}'
+
+{"docs":["developer.redis.com/develop/node","developer.redis.com/develop/node/node-crash-course","developer.redis.com/develop/java/redis-and-spring-course/lesson_8","developer.redis.com/develop/node/nodecrashcourse/runningtheapplication","developer.redis.com/develop/node/nodecrashcourse/welcome","developer.redis.com/develop/node/nodecrashcourse/coursewrapup","developer.redis.com/develop/node/nodecrashcourse/redisbloom","developer.redis.com/develop/node/nodecrashcourse/sessionstorage","developer.redis.com/develop/node/nodecrashcourse/checkinswithstreams","developer.redis.com/develop/node/nodecrashcourse/redisearch"]}
 ```
