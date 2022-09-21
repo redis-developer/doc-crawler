@@ -1,5 +1,5 @@
 {
-  "name": "binary-file-search",
+  "name": "doc-crawler",
   "version": "1.0.0",
   "description": "web crawling with redis indexing",
   "main": "app.js",
